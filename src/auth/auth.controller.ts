@@ -1,6 +1,6 @@
-import { Controller, Post, Req } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { Request } from 'express';
+import { AuthDto } from './dto';
 
 @Controller('auth')
 export class AuthController {
@@ -8,10 +8,11 @@ export class AuthController {
 
   @Post('signin')
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  login(@Req() req: Request) {
-    console.log(req);
-    console.log(req.body);
-    return this.authService.login();
+  login(@Body() dto: AuthDto) {
+    console.log(dto);
+    //console.log(req.body);
+    if (!dto.email) return 'it failed';
+    else return this.authService.login();
   }
   @Post('signup')
   signup() {
