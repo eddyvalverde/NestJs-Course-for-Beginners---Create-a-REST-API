@@ -11,8 +11,7 @@ export class AuthController {
   login(@Body() dto: AuthDto) {
     console.log(dto);
     //console.log(req.body);
-    if (!dto.email) return 'it failed';
-    else return this.authService.login();
+    return this.authService.login();
   }
   @Post('signup')
   signup() {
