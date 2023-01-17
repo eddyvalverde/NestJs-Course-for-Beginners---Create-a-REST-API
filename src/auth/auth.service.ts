@@ -1,4 +1,8 @@
-import { ForbiddenException, Injectable, Post } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  Post,
+} from '@nestjs/common';
 import { User, Bookmark } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import * as argon from 'argon2';
@@ -36,16 +40,28 @@ export class AuthService {
   }
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   async signup(dto: AuthDto) {
+    //find the user by email
+    const userExist =
+      await this.prisma.user.findUnique({
+        where: {
+          email: dto.email,
+        },
+      });
     //generate password hash
     const hash = await argon.hash(dto.password);
     //save the new user in db
-    const user = await this.prisma.user.create({
-      data: {
-        email: dto.email,
-        hash,
-      },
-    });
-    //return saved user
-    return user;
+    if (!userExist) {
+      const user = await this.prisma.user.create({
+        data: {
+          email: dto.email,
+          hash,
+        },
+      });
+      return user;
+    } else {
+      throw new ForbiddenException(
+        'User already exists',
+      );
+    }
   }
 }
