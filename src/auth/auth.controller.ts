@@ -9,9 +9,9 @@ export class AuthController {
   @Post('signin')
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   login(@Body() dto: AuthDto) {
-    console.log(dto);
+    //console.log(dto);
     //console.log(req.body);
-    return this.authService.login();
+    return this.authService.login(dto);
   }
   @Post('signup')
   signup(@Body() dto: AuthDto) {
