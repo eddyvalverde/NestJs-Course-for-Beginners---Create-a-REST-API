@@ -4,7 +4,7 @@ import {
   Post,
 } from '@nestjs/common';
 import { User, Bookmark } from '@prisma/client';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from '../prisma/prisma.service';
 import * as argon from 'argon2';
 import { AuthDto } from './dto';
 import { JwtService } from '@nestjs/jwt';
