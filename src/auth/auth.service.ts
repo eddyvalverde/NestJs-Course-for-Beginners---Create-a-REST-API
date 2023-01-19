@@ -81,9 +81,10 @@ export class AuthService {
     //find secret in .env file
     const secret = this.config.get('JWT_SECRET');
     //return jwt
-    return this.jwt.signAsync(payload, {
+    const token = this.jwt.signAsync(payload, {
       expiresIn: '1d',
       secret: secret,
     });
+    return token;
   }
 }
