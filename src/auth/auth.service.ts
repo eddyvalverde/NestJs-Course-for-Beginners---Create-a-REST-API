@@ -73,19 +73,19 @@ export class AuthService {
     userId: number,
     email: string,
   ): Promise<{ access_token: string }> {
-    const payload = {
-      //create payload with necessary information to generate jwt
+    const payload = { //create payload with necessary information to generate jwt
       sub: userId,
       email,
     };
-
     const secret = this.config.get('JWT_SECRET'); //find secret in .env file
 
-    const token = this.jwt.signAsync(payload, {
-      //return jwt
-      expiresIn: '1d',
-      secret: secret,
-    });
+    const token = this.jwt.signAsync(
+      payload, //return jwt
+      {
+        expiresIn: '1d',
+        secret: secret,
+      },
+    );
     return {
       access_token: token,
     };
