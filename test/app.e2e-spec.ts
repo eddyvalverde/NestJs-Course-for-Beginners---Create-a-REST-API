@@ -102,8 +102,21 @@ describe('App e2e', () => {
           .post('/auth/signin')
           .withBody(dto)
           .expectStatus(200)
-          .inspect();
+          .inspect()
+          .stores('token', 'body');
       });
+    });
+  });
+  describe('User', () => {
+    it('Get me', () => {
+      return pactum
+        .spec()
+        .get('/users/me')
+        .withHeaders({
+          Authorization: 'Bearer $S{token}',
+        })
+        .expectStatus(200)
+        .inspect();
     });
   });
   it.todo('should pass');
