@@ -4,7 +4,7 @@ import {
   Post,
 } from '@nestjs/common';
 import { User, Bookmark } from '@prisma/client';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from '../prisma/prisma.service';
 import * as argon from 'argon2';
 import { AuthDto } from './dto';
 import { JwtService } from '@nestjs/jwt';
@@ -69,21 +69,25 @@ export class AuthService {
     }
   }
 
-  signToken(
+  async signToken(
     userId: number,
     email: string,
-  ): Promise<string> {
-    //create payload with necessary information to generate jwt
+  ): Promise<{ access_token: string }> {
     const payload = {
       sub: userId,
       email,
     };
-    //find secret in .env file
     const secret = this.config.get('JWT_SECRET');
-    //return jwt
-    return this.jwt.signAsync(payload, {
-      expiresIn: '1d',
-      secret: secret,
-    });
+
+    const token = await this.jwt.signAsync(
+      payload,
+      {
+        expiresIn: '1d',
+        secret: secret,
+      },
+    );
+    return {
+      access_token: token,
+    };
   }
 }
