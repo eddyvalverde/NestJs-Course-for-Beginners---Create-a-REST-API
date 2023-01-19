@@ -103,7 +103,7 @@ describe('App e2e', () => {
           .withBody(dto)
           .expectStatus(200)
           .inspect()
-          .stores('token', 'body');
+          .stores('token', 'access_token');
       });
     });
   });
