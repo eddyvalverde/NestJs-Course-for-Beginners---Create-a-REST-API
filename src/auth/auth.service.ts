@@ -69,10 +69,10 @@ export class AuthService {
     }
   }
 
-  signToken(
+  async signToken(
     userId: number,
     email: string,
-  ): Promise<string> {
+  ): Promise<{ access_token: string }> {
     //create payload with necessary information to generate jwt
     const payload = {
       sub: userId,
@@ -85,6 +85,6 @@ export class AuthService {
       expiresIn: '1d',
       secret: secret,
     });
-    return token;
+    return { access_token: token };
   }
 }
